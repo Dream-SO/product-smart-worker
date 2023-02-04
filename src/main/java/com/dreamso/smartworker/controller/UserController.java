@@ -18,6 +18,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/users")
+    @ApiOperation(value = "Get all users.", notes = "Returns user list")
     public List<User> getUsers() {
         return userService.getUsers();
     }
@@ -25,6 +26,7 @@ public class UserController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Create a User resource.", notes = "Returns the User")
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
