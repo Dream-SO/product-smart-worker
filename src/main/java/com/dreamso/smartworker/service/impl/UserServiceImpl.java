@@ -1,6 +1,6 @@
 package com.dreamso.smartworker.service.impl;
 
-import com.dreamso.smartworker.exception.ResourceNotFoundException;
+import com.dreamso.smartworker.exception.EntityNotFoundException;
 import com.dreamso.smartworker.model.User;
 import com.dreamso.smartworker.repository.UserRepository;
 import com.dreamso.smartworker.service.UserService;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl  implements UserService {
@@ -23,7 +22,7 @@ public class UserServiceImpl  implements UserService {
     @Override
     public User getUserById(long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid user id"));
+                .orElseThrow(() -> new EntityNotFoundException(User.class, "id", Long.toString(id)));
         return user;
     }
 
@@ -34,7 +33,7 @@ public class UserServiceImpl  implements UserService {
     @Override
     public User updateUser(long id, User userRequest) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid user id"));
+                .orElseThrow(() ->new EntityNotFoundException(User.class, "id", Long.toString(id)));
 
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
@@ -45,7 +44,7 @@ public class UserServiceImpl  implements UserService {
     @Override
     public void deleteUser(long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException(User.class, "id", Long.toString(id)));
 
         userRepository.delete(user);
     }
